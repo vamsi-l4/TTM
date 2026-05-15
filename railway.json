@@ -1,0 +1,17 @@
+{
+  "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@railway/plugin-vite"
+    },
+    {
+      "src": "backend/requirements.txt",
+      "use": "@railway/plugin-python"
+    }
+  ],
+  "plugins": [
+    {
+      "name": "@railway/plugin-postgresql"
+    }
+  ]
+}
