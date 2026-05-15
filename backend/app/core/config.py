@@ -11,6 +11,9 @@ class Settings(BaseSettings):
     # Default to SQLite for local dev.
     # In deployment, Railway should provide DATABASE_URL via environment variables.
     # (env_file is disabled; your hosting platform must inject env vars.)
+    # Use SQLite only when explicitly running local dev.
+    # In production, Railway must inject DATABASE_URL.
+    # Set ENV=local to enable local SQLite fallback.
     database_url: str = "sqlite:///./taskflow_dev.db"
 
 
