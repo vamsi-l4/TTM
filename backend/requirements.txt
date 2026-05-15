@@ -7,3 +7,4 @@ passlib[bcrypt]==1.7.4
 pydantic[email]==1.10.21
 python-dotenv==1.0.0
 psycopg2-binary
+python-multipart
