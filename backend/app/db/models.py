@@ -23,7 +23,11 @@ class User(Base):
     is_active = Column(Integer, default=1)
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    assigned_tasks = relationship("Task", back_populates="assignee")
+    assigned_tasks = relationship(
+        "Task",
+        back_populates="assignee",
+        foreign_keys="Task.assignee_id",
+    )
     created_projects = relationship("Project", back_populates="owner")
     comments = relationship("Comment", back_populates="author")
     projects = relationship("Project", secondary=project_member_association, back_populates="members")

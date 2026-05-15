@@ -16,11 +16,22 @@ router = APIRouter()
 
 @router.post("/register", response_model=UserRead)
 def register(user_create: UserCreate, db: Session = Depends(get_db)):
-    existing = crud.get_user_by_email(db, user_create.email)
-    if existing:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
-    user = crud.create_user(db, user_create)
-    return user
+    try:
+        existing = crud.get_user_by_email(db, user_create.email)
+        if existing:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
+        user = crud.create_user(db, user_create)
+        return user
+    except HTTPException:
+        raise
+    except Exception as exc:
+        # Ensures we get the real error in the backend logs and the frontend gets a proper JSON error.
+        # CORS middleware will still apply to this response.
+        import traceback
+
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(exc))
+
 
 
 @router.post("/login", response_model=Token)

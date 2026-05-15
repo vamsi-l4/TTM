@@ -12,11 +12,19 @@ settings = get_settings()
 app = FastAPI(title=settings.app_name, docs_url="/api/docs", openapi_url="/api/openapi.json")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.frontend_url],
+    allow_origins=[
+        settings.frontend_url,
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:5174",
+        "http://127.0.0.1:5174",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
 
 app.include_router(auth.router, prefix=f"{settings.api_prefix}/auth", tags=["Auth"])
 app.include_router(users.router, prefix=f"{settings.api_prefix}/users", tags=["Users"])
